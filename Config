@@ -1,0 +1,28 @@
+local bindable = Instance.new("BindableFunction")
+local StarterGui = game:GetService("StarterGui")
+
+local MainFile = "ELGATO HUB/".. game:GetService("MarketplaceService"):GetProductInfo(game.PlaceId).Name.. "/".. game.Players.LocalPlayer.Name.. ".json"
+
+bindable.OnInvoke = function(response)
+    if response == "yes" then
+        if isfile(MainFile) then
+            delfile(MainFile)
+            wait(1)
+            game.Players.LocalPlayer:Kick("Deleted successfully")
+        else
+            StarterGui:SetCore("SendNotification", {
+                Title = "elgato remove config",
+                Text = "not found config",
+                Duration = 5,
+            })
+        end
+    end
+end
+
+StarterGui:SetCore("SendNotification", {
+    Title = "elgato remove config",
+    Text = "do you want to delete",
+    Duration = 15,
+    Callback = bindable,
+    Button1 = "yes"
+})
