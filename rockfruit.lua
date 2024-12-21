@@ -18,6 +18,7 @@ local hmr = plr.Character:FindFirstChild("HumanoidRootPart")
 
 --local function xyzabc()
 
+if _G.UseCustomConfig == nil or _G.UseCustomConfig == false then
     _G.Settings = {
         Main = {
             -- Auto Farm Mob
@@ -94,48 +95,53 @@ local hmr = plr.Character:FindFirstChild("HumanoidRootPart")
             ["F"] = true,
         },
     }
+end
 
 local NG = "Rock Fruit"
 
 function LoadSettings()
-    if _G.LoadDefault == nil or _G.LoadDefault == true then
-        if readfile and writefile and isfile and isfolder then
-            if not isfolder("ELGATO HUB") then
-                makefolder("ELGATO HUB")
-            end
-            if not isfolder("ELGATO HUB/" .. NG .. "/") then
-                makefolder("ELGATO HUB/" .. NG .. "/")
-            end
-            if not isfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json") then
-                writefile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json", game:GetService("HttpService"):JSONEncode(_G.Settings))
-            else
-                local Decode = game:GetService("HttpService"):JSONDecode(readfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json"))
-                for i, v in pairs(Decode) do
-                    _G.Settings[i] = v
-                end
-            end
-        else
-            return warn("Status : Undetected Executor")
+    if _G.UseCustomConfig == true then
+        return 
+    end
+
+    if readfile and writefile and isfile and isfolder then
+        if not isfolder("ELGATO HUB") then
+            makefolder("ELGATO HUB")
         end
+        if not isfolder("ELGATO HUB/" .. NG .. "/") then
+            makefolder("ELGATO HUB/" .. NG .. "/")
+        end
+        if not isfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json") then
+            writefile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json", game:GetService("HttpService"):JSONEncode(_G.Settings))
+        else
+            local Decode = game:GetService("HttpService"):JSONDecode(readfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json"))
+            for i, v in pairs(Decode) do
+                _G.Settings[i] = v
+            end
+        end
+    else
+        return warn("Status : Undetected Executor")
     end
 end
 
 function SaveSettings()
-    if _G.LoadDefault == nil or _G.LoadDefault == true then
-        if readfile and writefile and isfile and isfolder then
-            if not isfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json") then
-                LoadSettings()
-            else
-                local Decode = game:GetService("HttpService"):JSONDecode(readfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json"))
-                local Array = {}
-                for i, v in pairs(_G.Settings) do
-                    Array[i] = v
-                end
-                writefile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json", game:GetService("HttpService"):JSONEncode(Array))
-            end
+    if _G.UseCustomConfig == true then
+        return 
+    end
+
+    if readfile and writefile and isfile and isfolder then
+        if not isfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json") then
+            LoadSettings()
         else
-            return warn("Status : Undetected Executor")
+            local Decode = game:GetService("HttpService"):JSONDecode(readfile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json"))
+            local Array = {}
+            for i, v in pairs(_G.Settings) do
+                Array[i] = v
+            end
+            writefile("ELGATO HUB/" .. NG .. "/" .. plr.Name .. ".json", game:GetService("HttpService"):JSONEncode(Array))
         end
+    else
+        return warn("Status : Undetected Executor")
     end
 end
 
